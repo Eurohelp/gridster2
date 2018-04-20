@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.options = {
-      gridType: GridType.Fit,
+      gridType: GridType.ScrollVertical,
       compactType: CompactType.None,
       margin: 10,
       outerMargin: true,

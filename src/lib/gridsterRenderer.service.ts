@@ -64,7 +64,7 @@ export class GridsterRenderer {
       removeClass2 = GridType.ScrollHorizontal;
       removeClass3 = GridType.Fixed;
     } else if (this.gridster.$options.gridType === GridType.ScrollVertical) {
-      this.gridster.curRowHeight = this.gridster.curColWidth;
+      //this.gridster.curRowHeight = this.gridster.curColWidth;
       addClass = GridType.ScrollVertical;
       removeClass1 = GridType.Fit;
       removeClass2 = GridType.ScrollHorizontal;

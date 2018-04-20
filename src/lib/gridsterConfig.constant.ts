@@ -13,7 +13,7 @@ export const GridsterConfigService: GridsterConfig = {
   keepFixedWidthInMobile: false, // keep the width from fixed gridType in mobile layout
   compactType: CompactType.None, // compact items: 'none' | 'compactUp' | 'compactLeft' | 'compactUp&Left' | 'compactLeft&Up'
   mobileBreakpoint: 640, // if the screen is not wider that this, remove the grid layout and stack the items
-  minWidthToAddANewColumn: 140, // minimum width within gridster to add a new column when dynamicColumns is true. The predefined margin in between columns and outerMargin (if true) are added to this number in the calculation.
+  minWidthToAddANewColumn: 300, // minimum width within gridster to add a new column when dynamicColumns is true. The predefined margin in between columns and outerMargin (if true) are added to this number in the calculation.
   minCols: 1, // minimum amount of columns in the grid
   maxCols: 100, // maximum amount of columns in the grid
   minRows: 1, // minimum amount of rows in the grid

@@ -43,7 +43,9 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   columns: number;
   rows: number;
   curColWidth: number;
+  minColWidth: number;
   curRowHeight: number;
+  minRowHeight: number;
   gridColumns = [];
   gridRows = [];
   windowResize: (() => void) | null;
@@ -51,9 +53,9 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   emptyCell: GridsterEmptyCell;
   compact: GridsterCompact;
   gridRenderer: GridsterRenderer;
-    //Variables para columnas dinámicas
+    //Variables for dynamic columns
   elemWidth: number;
-  minColWidth: number;
+  minColWidthAdd: number;
   numColumns: number;
 
   constructor(el: ElementRef, public renderer: Renderer2, public cdRef: ChangeDetectorRef, public zone: NgZone) {
@@ -65,13 +67,15 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.curHeight = 0;
     this.grid = [];
     this.curColWidth = 0;
+    this.minColWidth = 300;
     this.curRowHeight = 0;
+    this.minRowHeight = 200;
     this.dragInProgress = false;
     this.emptyCell = new GridsterEmptyCell(this);
     this.compact = new GridsterCompact(this);
     this.gridRenderer = new GridsterRenderer(this);
     this.elemWidth = 0;
-    this.minColWidth = 0;
+    this.minColWidthAdd = 0;
     this.numColumns = 0;
   }
 
@@ -269,6 +273,12 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       this.renderer.setStyle(this.el, 'padding-top', 0 + 'px');
       this.renderer.setStyle(this.el, 'padding-bottom', 0 + 'px');
     }
+    console.log("Tamaño despues de calcular: " + this.curRowHeight);
+    if (this.curColWidth < this.minColWidth)
+      this.curColWidth = this.minColWidth;
+    if (this.curRowHeight < this.minRowHeight)
+      this.curRowHeight = this.minRowHeight;
+    
     this.gridRenderer.updateGridster();
 
     this.updateGrid();
@@ -295,6 +305,7 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.setGridDimensions();
     this.gridColumns.length = Math.max(this.columns, Math.floor(this.curWidth / this.curColWidth)) || 0;
     this.gridRows.length = Math.max(this.rows, Math.floor(this.curHeight / this.curRowHeight)) || 0;
+    console.log("Tamaño al usar: " + this.curRowHeight);
     this.cdRef.markForCheck();
   }
 
@@ -315,8 +326,8 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       } else {
         marginWidth += this.$options.margin;
       }
-      this.minColWidth = (parseInt(this.$options.minWidthToAddANewColumn, 10) + marginWidth);
-      this.numColumns = Math.floor(this.elemWidth / this.minColWidth);
+      this.minColWidthAdd = (parseInt(this.$options.minWidthToAddANewColumn, 10) + marginWidth);
+      this.numColumns = Math.floor(this.elemWidth / this.minColWidthAdd);
 
       if (this.numColumns < this.$options.minCols) {
         this.numColumns = this.$options.minCols;
