@@ -12,7 +12,8 @@ export const GridsterConfigService: GridsterConfig = {
   keepFixedHeightInMobile: false, // keep the height from fixed gridType in mobile layout
   keepFixedWidthInMobile: false, // keep the width from fixed gridType in mobile layout
   compactType: CompactType.None, // compact items: 'none' | 'compactUp' | 'compactLeft' | 'compactUp&Left' | 'compactLeft&Up'
-  mobileBreakpoint: 640, // if the screen is not wider that this, remove the grid layout and stack the items
+  mobileBreakpoint: 150, // if the screen is not wider that this, remove the grid layout and stack the items
+  minWidthToAddANewColumn: 140, // minimum width within gridster to add a new column when dynamicColumns is true. The predefined margin in between columns and outerMargin (if true) are added to this number in the calculation.
   minCols: 1, // minimum amount of columns in the grid
   maxCols: 100, // maximum amount of columns in the grid
   minRows: 1, // minimum amount of rows in the grid
@@ -57,7 +58,7 @@ export const GridsterConfigService: GridsterConfig = {
   ignoreMarginInRow: false, // ignore the gap between rows for items which span multiple rows (see #162, #224)
   draggable: {
     delayStart: 0, // milliseconds to delay the start of drag, useful for touch interaction
-    enabled: false, // enable/disable draggable items
+    enabled: true, // enable/disable draggable items
     ignoreContentClass: 'gridster-item-content', // default content class to ignore the drag event from
     ignoreContent: false, // if true drag will start only from elements from `dragHandleClass`
     dragHandleClass: 'drag-handler', // drag event only from this class. If `ignoreContent` is true.
@@ -70,7 +71,7 @@ export const GridsterConfigService: GridsterConfig = {
   },
   resizable: {
     delayStart: 0, // milliseconds to delay the start of resize, useful for touch interaction
-    enabled: false, // enable/disable resizable items
+    enabled: true, // enable/disable resizable items
     handles: {
       s: true,
       e: true,

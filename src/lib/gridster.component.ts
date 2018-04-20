@@ -51,6 +51,10 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   emptyCell: GridsterEmptyCell;
   compact: GridsterCompact;
   gridRenderer: GridsterRenderer;
+    //Variables para columnas dinámicas
+  elemWidth: number;
+  minColWidth: number;
+  numColumns: number;
 
   constructor(el: ElementRef, public renderer: Renderer2, public cdRef: ChangeDetectorRef, public zone: NgZone) {
     this.el = el.nativeElement;
@@ -66,6 +70,9 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.emptyCell = new GridsterEmptyCell(this);
     this.compact = new GridsterCompact(this);
     this.gridRenderer = new GridsterRenderer(this);
+    this.elemWidth = 0;
+    this.minColWidth = 0;
+    this.numColumns = 0;
   }
 
   static checkCollisionTwoItems(item: GridsterItemS, item2: GridsterItemS): boolean {
@@ -154,6 +161,8 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   }
 
   onResize(): void {
+    this.calculateColumns();
+    this.updateItems();
     this.setGridSize();
     this.calculateLayout();
   }
@@ -205,11 +214,12 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       widget = this.grid[widgetsIndex];
       if (!widget.notPlaced) {
         rows = Math.max(rows, widget.$item.y + widget.$item.rows);
-        columns = Math.max(columns, widget.$item.x + widget.$item.cols);
+        //columns = Math.max(columns, widget.$item.x + widget.$item.cols);
       }
     }
 
-    this.columns = columns;
+    //this.columns = columns;
+    this.calculateColumns();
     this.rows = rows;
   }
 
@@ -289,6 +299,57 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.cdRef.markForCheck();
   }
 
+  calculateColumns(): void {
+    this.elemWidth = this.el.offsetWidth || parseInt(this.el.css('width'), 10);
+    if (!this.elemWidth) {
+      return;
+    }
+
+    let marginWidth = -this.$options.margin;
+      if (this.$options.outerMarginLeft !== null) {
+        marginWidth += this.$options.outerMarginLeft;
+      } else {
+        marginWidth += this.$options.margin;
+      }
+      if (this.$options.outerMarginRight !== null) {
+        marginWidth += this.$options.outerMarginRight;
+      } else {
+        marginWidth += this.$options.margin;
+      }
+      this.minColWidth = (parseInt(this.$options.minWidthToAddANewColumn, 10) + marginWidth);
+      this.numColumns = Math.floor(this.elemWidth / this.minColWidth);
+
+      if (this.numColumns < this.$options.minCols) {
+        this.numColumns = this.$options.minCols;
+      }
+
+      if (this.numColumns !== this.columns) {
+        this.columns = this.numColumns;
+      }
+  }
+
+  updateItems(): void {
+    let itemsOutOfLayout: any [] = [];
+    let widget: any;
+
+    for (let rowIndex = 0, l = this.grid.length; rowIndex < l; ++rowIndex) {
+      widget = this.grid[rowIndex];
+      if (widget) {
+        if (widget.$item.cols > this.columns) {
+          itemsOutOfLayout.push(widget);
+        } else if (widget.$item.x + widget.$item.cols > this.columns) {
+          itemsOutOfLayout.push(widget);
+        } else {
+          this.autoPositionItem(widget);
+        }
+      }
+    }
+    for (let itemlIndex = 0, length = itemsOutOfLayout.length; itemlIndex < length; ++itemlIndex) {
+      this.autoPositionItem(itemsOutOfLayout[itemlIndex]);
+    }
+    itemsOutOfLayout.length = 0;
+  }
+
   addItem(itemComponent: GridsterItemComponentInterface): void {
     if (itemComponent.$item.cols === undefined) {
       itemComponent.$item.cols = this.$options.defaultItemCols;
@@ -331,8 +392,8 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
 
   checkGridCollision(item: GridsterItemS): boolean {
     const noNegativePosition = item.y > -1 && item.x > -1;
-    const maxGridCols = item.cols + item.x <= this.$options.maxCols;
-    const maxGridRows = item.rows + item.y <= this.$options.maxRows;
+    const maxGridCols = item.cols + item.x <= this.columns;
+    const maxGridRows = item.rows + item.y <= this.rows;
     const maxItemCols = item.maxItemCols === undefined ? this.$options.maxItemCols : item.maxItemCols;
     const minItemCols = item.minItemCols === undefined ? this.$options.minItemCols : item.minItemCols;
     const maxItemRows = item.maxItemRows === undefined ? this.$options.maxItemRows : item.maxItemRows;
@@ -398,17 +459,21 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       colsIndex = startingFrom.x || 0;
       for (; colsIndex < this.columns; colsIndex++) {
         newItem.x = colsIndex;
-        if (!this.checkCollision(newItem)) {
+        if (!this.checkCollision(newItem) && (newItem.x + newItem.cols <= this.columns)) {
           return true;
         }
       }
+    }
+    if(newItem.cols==2) {
+      console.log("Añadiendo item ancho: " + newItem.cols);
     }
     const canAddToRows = this.$options.maxRows >= this.rows + newItem.rows;
     const canAddToColumns = this.$options.maxCols >= this.columns + newItem.cols;
     const addToRows = this.rows <= this.columns && canAddToRows;
     if (!addToRows && canAddToColumns) {
-      newItem.x = this.columns;
-      newItem.y = 0;
+      newItem.x = 0;
+      newItem.y = this.rows;
+      this.rows++;
       return true;
     } else if (canAddToRows) {
       newItem.y = this.rows;

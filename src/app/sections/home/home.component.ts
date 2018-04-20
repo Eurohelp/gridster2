@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
       outerMarginRight: null,
       outerMarginBottom: null,
       outerMarginLeft: null,
-      mobileBreakpoint: 640,
+      mobileBreakpoint: 300,
       minCols: 1,
       maxCols: 100,
       minRows: 1,
