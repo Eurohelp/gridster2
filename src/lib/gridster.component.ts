@@ -393,7 +393,7 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   checkGridCollision(item: GridsterItemS): boolean {
     const noNegativePosition = item.y > -1 && item.x > -1;
     const maxGridCols = item.cols + item.x <= this.columns;
-    const maxGridRows = item.rows + item.y <= this.rows;
+    const maxGridRows = item.rows + item.y <= this.$options.maxRows;
     const maxItemCols = item.maxItemCols === undefined ? this.$options.maxItemCols : item.maxItemCols;
     const minItemCols = item.minItemCols === undefined ? this.$options.minItemCols : item.minItemCols;
     const maxItemRows = item.maxItemRows === undefined ? this.$options.maxItemRows : item.maxItemRows;
@@ -464,20 +464,19 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
         }
       }
     }
-    if(newItem.cols==2) {
-      console.log("Añadiendo item ancho: " + newItem.cols);
-    }
     const canAddToRows = this.$options.maxRows >= this.rows + newItem.rows;
     const canAddToColumns = this.$options.maxCols >= this.columns + newItem.cols;
     const addToRows = this.rows <= this.columns && canAddToRows;
     if (!addToRows && canAddToColumns) {
       newItem.x = 0;
       newItem.y = this.rows;
-      this.rows++;
+      //this.rows++;
+      console.log("Entrando en condicion 1");
       return true;
     } else if (canAddToRows) {
       newItem.y = this.rows;
       newItem.x = 0;
+      console.log("Entrando en condicion 2");
       return true;
     }
     return false;
