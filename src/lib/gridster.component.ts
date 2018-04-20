@@ -214,7 +214,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       widget = this.grid[widgetsIndex];
       if (!widget.notPlaced) {
         rows = Math.max(rows, widget.$item.y + widget.$item.rows);
-        //columns = Math.max(columns, widget.$item.x + widget.$item.cols);
       }
     }
 
@@ -471,12 +470,10 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       newItem.x = 0;
       newItem.y = this.rows;
       //this.rows++;
-      console.log("Entrando en condicion 1");
       return true;
     } else if (canAddToRows) {
       newItem.y = this.rows;
       newItem.x = 0;
-      console.log("Entrando en condicion 2");
       return true;
     }
     return false;
