@@ -46,6 +46,7 @@
     "dist/*"
   ],
   "dependencies": {
+    "mdbootstrap": "^4.5.1",
     "ng-dynamic-component": "^2.1.0"
   },
   "devDependencies": {
