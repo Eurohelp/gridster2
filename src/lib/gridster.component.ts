@@ -67,9 +67,9 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.curHeight = 0;
     this.grid = [];
     this.curColWidth = 0;
-    this.minColWidth = 300;
+    this.minColWidth = 310;
     this.curRowHeight = 0;
-    this.minRowHeight = 200;
+    this.minRowHeight = 210;
     this.dragInProgress = false;
     this.emptyCell = new GridsterEmptyCell(this);
     this.compact = new GridsterCompact(this);
