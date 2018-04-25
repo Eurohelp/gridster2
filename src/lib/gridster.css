@@ -30,6 +30,7 @@ gridster.fixed {
 gridster.mobile {
   overflow-x: hidden;
   overflow-y: auto;
+  min-width: 310px;
 }
 
 gridster.mobile gridster-item {

@@ -43,7 +43,7 @@ export class GridsterRenderer {
           if (this.gridster.$options.outerMarginBottom !== null) {
             marginRight = this.gridster.$options.outerMarginRight + 'px';
           } else {
-            marginRight = this.gridster.$options.margin + 'px';
+            marginRight = this.gridster.$options.outerMarginRight + 'px';
           }
         }
       }

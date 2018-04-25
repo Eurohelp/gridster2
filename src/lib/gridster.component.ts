@@ -53,7 +53,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   emptyCell: GridsterEmptyCell;
   compact: GridsterCompact;
   gridRenderer: GridsterRenderer;
-    //Variables for dynamic columns
   elemWidth: number;
   minColWidthAdd: number;
   numColumns: number;
@@ -167,8 +166,8 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
   onResize(): void {
     this.calculateColumns();
     this.updateItems();
-    this.setGridSize();
     this.calculateLayout();
+    this.setGridSize();
   }
 
   checkIfToResize(): boolean {
@@ -221,7 +220,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       }
     }
 
-    //this.columns = columns;
     this.calculateColumns();
     this.rows = rows;
   }
@@ -273,7 +271,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       this.renderer.setStyle(this.el, 'padding-top', 0 + 'px');
       this.renderer.setStyle(this.el, 'padding-bottom', 0 + 'px');
     }
-    console.log("Tamaño despues de calcular: " + this.curRowHeight);
     if (this.curColWidth < this.minColWidth)
       this.curColWidth = this.minColWidth;
     if (this.curRowHeight < this.minRowHeight)
@@ -305,7 +302,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     this.setGridDimensions();
     this.gridColumns.length = Math.max(this.columns, Math.floor(this.curWidth / this.curColWidth)) || 0;
     this.gridRows.length = Math.max(this.rows, Math.floor(this.curHeight / this.curRowHeight)) || 0;
-    console.log("Tamaño al usar: " + this.curRowHeight);
     this.cdRef.markForCheck();
   }
 
@@ -326,6 +322,7 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
       } else {
         marginWidth += this.$options.margin;
       }
+      this.curColWidth = (this.curWidth - marginWidth) / this.columns;
       this.minColWidthAdd = (parseInt(this.$options.minWidthToAddANewColumn, 10) + marginWidth);
       this.numColumns = Math.floor(this.elemWidth / this.minColWidthAdd);
 
@@ -394,6 +391,7 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     if (this.options.itemRemovedCallback) {
       this.options.itemRemovedCallback(itemComponent.item, itemComponent);
     }
+    this.updateItems();
   }
 
   checkCollision(item: GridsterItemS): GridsterItemComponentInterface | boolean {
@@ -480,7 +478,6 @@ export class GridsterComponent implements OnInit, OnChanges, OnDestroy, Gridster
     if (!addToRows && canAddToColumns) {
       newItem.x = 0;
       newItem.y = this.rows;
-      //this.rows++;
       return true;
     } else if (canAddToRows) {
       newItem.y = this.rows;
