@@ -46,7 +46,8 @@
     "dist/*"
   ],
   "dependencies": {
-    "ng-dynamic-component": "^2.1.0"
+    "ng-dynamic-component": "^2.1.0",
+    "pluralize": "^7.0.0"
   },
   "devDependencies": {
     "@angular/animations": "5.2.9",
