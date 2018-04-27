@@ -1,18 +1,10 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var gridsterDraggable_service_1 = require("./gridsterDraggable.service");
 var gridsterResizable_service_1 = require("./gridsterResizable.service");
 var gridsterUtils_service_1 = require("./gridsterUtils.service");
+var gridster_component_1 = require("./gridster.component");
 var GridsterItemComponent = /** @class */ (function () {
     function GridsterItemComponent(el, gridster, renderer, zone) {
         this.renderer = renderer;
@@ -122,18 +114,24 @@ var GridsterItemComponent = /** @class */ (function () {
         return !this.gridster.mobile &&
             (this.$item.resizeEnabled === undefined ? this.gridster.$options.resizable.enabled : this.$item.resizeEnabled);
     };
-    __decorate([
-        core_1.Input()
-    ], GridsterItemComponent.prototype, "item", void 0);
-    GridsterItemComponent = __decorate([
-        core_1.Component({
-            selector: 'gridster-item',
-            templateUrl: './gridsterItem.html',
-            styleUrls: ['./gridsterItem.css'],
-            encapsulation: core_1.ViewEncapsulation.None
-        }),
-        __param(1, core_1.Host())
-    ], GridsterItemComponent);
+    GridsterItemComponent.decorators = [
+        { type: core_1.Component, args: [{
+                    selector: 'gridster-item',
+                    template: "<ng-content></ng-content> <div (mousedown)=\"resize.dragStartDelay($event)\" (touchstart)=\"resize.dragStartDelay($event)\"      [hidden]=\"!gridster.$options.resizable.handles.s || !resize.resizeEnabled\"      class=\"gridster-item-resizable-handler handle-s\"></div> <div (mousedown)=\"resize.dragStartDelay($event)\" (touchstart)=\"resize.dragStartDelay($event)\"      [hidden]=\"!gridster.$options.resizable.handles.e || !resize.resizeEnabled\"      class=\"gridster-item-resizable-handler handle-e\"></div> <div (mousedown)=\"resize.dragStartDelay($event)\" (touchstart)=\"resize.dragStartDelay($event)\"      [hidden]=\"!gridster.$options.resizable.handles.n || !resize.resizeEnabled\"      class=\"gridster-item-resizable-handler handle-n\"></div> <div (mousedown)=\"resize.dragStartDelay($event)\" (touchstart)=\"resize.dragStartDelay($event)\"      [hidden]=\"!gridster.$options.resizable.handles.w || !resize.resizeEnabled\"      class=\"gridster-item-resizable-handler handle-w\"></div> <div (mousedown)=\"resize.dragStartDelay($event)\" (touchstart)=\"resize.dragStartDelay($event)\"      [hidden]=\"!gridster.$options.resizable.handles.se || !resize.resizeEnabled\"      class=\"gridster-item-resizable-handler handle-se\"></div> <div (mousedown)=\"resize.dragStartDelay($event)\" (touchstart)=\"resize.dragStartDelay($event)\"      [hidden]=\"!gridster.$options.resizable.handles.ne || !resize.resizeEnabled\"      class=\"gridster-item-resizable-handler handle-ne\"></div> <div (mousedown)=\"resize.dragStartDelay($event)\" (touchstart)=\"resize.dragStartDelay($event)\"      [hidden]=\"!gridster.$options.resizable.handles.sw || !resize.resizeEnabled\"      class=\"gridster-item-resizable-handler handle-sw\"></div> <div (mousedown)=\"resize.dragStartDelay($event)\" (touchstart)=\"resize.dragStartDelay($event)\"      [hidden]=\"!gridster.$options.resizable.handles.nw || !resize.resizeEnabled\"      class=\"gridster-item-resizable-handler handle-nw\"></div>",
+                    styles: ["gridster-item {   box-sizing: border-box;   z-index: 1;   position: absolute;   overflow: hidden;   transition: .3s;   display: none;   background: white;   user-select: text; }  gridster-item.gridster-item-moving {   cursor: move; }  gridster-item.gridster-item-resizing, gridster-item.gridster-item-moving {   transition: 0s;   z-index: 2;   box-shadow: 0 0 5px 5px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12); }  .gridster-item-resizable-handler {   position: absolute;   z-index: 2; }  .gridster-item-resizable-handler.handle-n {   cursor: n-resize;   height: 10px;   right: 0;   top: 0;   left: 0; }  .gridster-item-resizable-handler.handle-e {   cursor: e-resize;   width: 10px;   bottom: 0;   right: 0;   top: 0; }  .gridster-item-resizable-handler.handle-s {   cursor: s-resize;   height: 10px;   right: 0;   bottom: 0;   left: 0; }  .gridster-item-resizable-handler.handle-w {   cursor: w-resize;   width: 10px;   left: 0;   top: 0;   bottom: 0; }  .gridster-item-resizable-handler.handle-ne {   cursor: ne-resize;   width: 10px;   height: 10px;   right: 0;   top: 0; }  .gridster-item-resizable-handler.handle-nw {   cursor: nw-resize;   width: 10px;   height: 10px;   left: 0;   top: 0; }  .gridster-item-resizable-handler.handle-se {   cursor: se-resize;   width: 0;   height: 0;   right: 0;   bottom: 0;   border-style: solid;   border-width: 0 0 10px 10px;   border-color: transparent; }  .gridster-item-resizable-handler.handle-sw {   cursor: sw-resize;   width: 10px;   height: 10px;   left: 0;   bottom: 0; }  gridster-item:hover .gridster-item-resizable-handler.handle-se {   border-color: transparent transparent #ccc }"],
+                    encapsulation: core_1.ViewEncapsulation.None
+                },] },
+    ];
+    /** @nocollapse */
+    GridsterItemComponent.ctorParameters = function () { return [
+        { type: core_1.ElementRef, },
+        { type: gridster_component_1.GridsterComponent, decorators: [{ type: core_1.Host },] },
+        { type: core_1.Renderer2, },
+        { type: core_1.NgZone, },
+    ]; };
+    GridsterItemComponent.propDecorators = {
+        "item": [{ type: core_1.Input },],
+    };
     return GridsterItemComponent;
 }());
 exports.GridsterItemComponent = GridsterItemComponent;
