@@ -271,14 +271,12 @@ var GridsterComponent = /** @class */ (function () {
         this.curColWidth = (this.curWidth - marginWidth) / this.columns;
         this.minColWidthAdd = (parseInt(this.$options.minWidthToAddANewColumn, 10) + marginWidth);
         this.numColumns = Math.floor(this.elemWidth / this.minColWidthAdd);
-        console.log("MinCols " + this.$options.minCols);
         if (this.numColumns < this.$options.minCols) {
             this.numColumns = this.$options.minCols;
         }
         if (this.numColumns !== this.columns) {
             this.columns = this.numColumns;
         }
-        console.log(this.numColumns);
     };
     GridsterComponent.prototype.updateItems = function () {
         var itemsOutOfLayout = [];
