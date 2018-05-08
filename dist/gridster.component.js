@@ -72,6 +72,10 @@ var GridsterComponent = /** @class */ (function () {
         }
         if ((width !== this.curWidth || height !== this.curHeight) && this.checkIfToResize()) {
             this.onResize();
+        } else {
+            this.calculateColumns();
+            this.calculateLayout();
+            this.setGridSize();
         }
     };
     GridsterComponent.prototype.setOptions = function () {
@@ -251,7 +255,7 @@ var GridsterComponent = /** @class */ (function () {
         this.cdRef.markForCheck();
     };
     GridsterComponent.prototype.calculateColumns = function () {
-        this.elemWidth = this.el.offsetWidth || parseInt($(this.el).css('width'), 10);
+        this.elemWidth = this.el.clientWidth || parseInt($(this.el).css('width'), 10);
         if (!this.elemWidth) {
             return;
         }
