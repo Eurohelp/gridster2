@@ -72,10 +72,11 @@ var GridsterComponent = /** @class */ (function () {
         }
         if ((width !== this.curWidth || height !== this.curHeight) && this.checkIfToResize()) {
             this.onResize();
-        } else {
+        } else if (this.checkIfToResize()) {
             this.calculateColumns();
-            this.calculateLayout();
-            this.setGridSize();
+            this.gridRenderer.updateGridster();
+            this.updateGrid();
+            setTimeout(this.resize.bind(this), 100);
         }
     };
     GridsterComponent.prototype.setOptions = function () {
