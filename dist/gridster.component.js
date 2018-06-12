@@ -398,6 +398,11 @@ var GridsterComponent = /** @class */ (function () {
         }
     };
     GridsterComponent.prototype.getNextPossiblePosition = function (newItem, startingFrom) {
+        if (this.checkIfToResize()) {
+            if (newItem.cols > this.numColumns) {
+                newItem.cols = this.numColumns;
+            }
+        }
         if (startingFrom === void 0) { startingFrom = {}; }
         if (newItem.cols === -1) {
             newItem.cols = this.$options.defaultItemCols;
